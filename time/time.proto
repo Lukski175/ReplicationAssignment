@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package time;
+option go_package = "https://github.com/Lukski175/ReplicationAssignment;time";
+import "google/protobuf/timestamp.proto";
+
+service auctionService {
+    rpc bid (BidMessage) returns (AuctionMessage) {}
+    rpc result (AuctionItem) returns (AuctionInfo) {}
+    rpc createAuction (AuctionInfo) returns (AuctionMessage) {}
+    rpc getAuctions (Empty) returns (stream AuctionInfo) {}
+}
+
+message Empty {}
+
+message AuctionItem {
+    string itemName = 1;
+}
+
+message BidMessage {
+    int32 amount = 1;
+    string clientName = 2;
+    string itemName = 3;
+}
+
+message AuctionMessage {
+    string message = 1;
+}
+
+message AuctionInfo {
+    int32 duration = 1;
+    string itemName = 2;
+    int32 minBid = 3;  
+    google.protobuf.Timestamp startTime = 4;
+    bool isFinished = 5;
+    string clientName = 6;
+}
